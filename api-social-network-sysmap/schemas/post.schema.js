@@ -23,6 +23,19 @@ const postSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Profile",
+      },
+    ],
+    image: {
+      type: String,
+      default: false
+    },
+    image_url: {
+      type: String
+    }
   },
   { timestamps: true }
 );

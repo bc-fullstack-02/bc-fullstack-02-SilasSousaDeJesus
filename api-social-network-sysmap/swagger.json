@@ -1,0 +1,479 @@
+{
+  "openapi": "3.0.0",
+  "version": "1.0.0",
+  "info": {
+    "title": "Api para Rede Social - Programa Trainee SysMap de Excelência Full Stack 2ª edição.",
+    "description": "Com esta API é possível criar, ler, editar e deletar usuários, perfil, posts, comentários, curtir e 'descurtir', seguir e deixar de seguir outros perfis e por fim Login e autenticação do usuário."
+  },
+  "basePath": "/",
+  "paths":{
+
+    "/user/signup":{
+      "post": {
+          "summary": "Cadastrar usuarios",
+          "description": " Esta rota é responsavel por cadastrar  usuario, encriptografar a senha e salvar este usuario no banco de dados. Este processo é feito requisito os dados do body, essas dados passam por validações para checar se os campos estão ou não vazios, para checar se o email cadastrado (usado para login) já existe. caso passe por todas as validações a senha recebe um tratamento especial usando bcrypt para gerar um hash que ira proteger esta senha no banco de dados, depois disso o novo usuario é salvo no banco de dados.",
+          "tags": ["User"],
+          "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/User"
+                      },
+                      "examples":{
+                          "user":{
+                              "value":{
+                                  "name": "Carlos",
+                                  "lastname": "Emanual Pedroza",
+                                  "email": "carlosemanualpedroza@gmail.com",
+                                  "password": "123456",
+                                  "profile": ""
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "empty  field"
+              },
+              "422": {
+                  "description": "existing email"
+              },
+              "200":{
+                 "description": "registered user"
+              }
+          }
+      }
+    },
+    "/user/showAll":{
+      "get": {
+          "summary": "Mostra usuarios",
+          "description": "Esta rota é responsavel por mostrar todos os usuarios cadastrados, nao é necessario passar nenhum parametro, apenas acessar este endpoint. Será  feito um find no  banco de dados buscando todos os usuarios e retorna um objeto listando esses usuarios.",
+          "tags": ["User"],
+          "requestBody": {
+              "schema":{
+                  "type":"object"
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "no registered users"
+              },
+              "200":{
+                  "content":{
+                      "application/json":{
+                          "schema":{
+                              "type":"object",
+                              "$ref":"#/components/schemas/User"
+                      
+                          }
+                      }
+                  }
+              }
+          }
+      }
+    },
+    "/user/showOne/{id}":{
+      "get": {
+          "summary": "Mostra  usuario especifico",
+          "description": " Esta rota é responsavel por buscar e mostrar um usuario especifico, usando  o Id como filtro.",
+          "tags": ["User"],
+          "parameters": [{
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema":{
+                  "type": "string",
+                  "minimum": 1
+              }
+          }],
+          "responses": {
+              "404": {
+                  "description": "user not found"
+              },
+              "200":{
+                  "content":{
+                      "application/json":{
+                          "schema":{
+                              "type":"object",
+                              "$ref":"#/components/schemas/User"
+                          }
+                      }
+                  }
+              }
+          }
+      }
+    },
+    "/user/update/{id}":{
+      "post": {
+          "summary": "Edição de Usuario",
+          "description": " Esta rota é responsavel por editar as informações do usuario, selecionando o usuario a ser editado por ID e passando os campos que terão as informações atualizadas e salvas no banco de dados",
+          "tags": ["User"],
+          "parameters": [{
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema":{
+                  "type": "string",
+                  "minimum": 1
+              }
+          }],     "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/User"
+                      },
+                      "examples":{
+                          "user":{
+                              "value":{
+                                "name": "Pedro",
+                                "lastname": "Janio Pedroza",
+                                "email": "pedrojaniopedroza@gmail.com",
+                                "password": "123456",
+                                "profile": ""
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "Required fields"
+              },
+              "404": {
+                  "description": "User not found"
+              },
+              "200":{
+                  "description": "user updated successfully"
+              }
+          }
+      }
+    },
+    "/user/delete/{id}":{
+      "delete": {
+          "summary": "Deletar  Usuario",
+          "description": " Esta rota é responsavel excluir o usuario do banco de dados, utilizando o Id vindo por params para deletar o usuario correspondente",
+          "tags": ["User"],
+          "parameters": [{
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema":{
+                  "type": "string",
+                  "minimum": 1
+              }
+          }],
+          "responses": {
+              "404": {
+                  "description": "user not found"
+              },
+              "200":{
+                  "description": "deleted user"
+              }
+          }
+      }
+    },
+
+
+    "/authentication":{
+      "post": {
+          "summary": "Login de usuario",
+          "description": " Esta rota é responsavel por fazer o login, criar e retornar um token de autenticação do usuario.  o login é realizado por meio do email e da senha cadastrada no banco de dados, feita a vefiricação se os campos estão preenchidos, é feita a verificação para saber se a senha e o email conhecidem com os dados cadastrados no banco, caso a resposta seja positiva, é gerado um token do usuario.",
+          "tags": ["Authentication"],
+          "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/Login"
+                      },
+                      "examples":{
+                          "login":{
+                              "value":{
+                                  "email": "carlosemanualpedroza@gmail.com",
+                                  "password": "123456"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+
+              "400": {
+                  "description": "an error occurred on the server"
+              },
+              "401": {
+                  "description": "invalid password"
+              },
+              "404": {
+                  "description": "User not found"
+              },
+              "422": {
+                  "description": "empty password field"
+              },
+              "200":{
+                 "description": "successful authentication",    
+                 "application/json":{
+                  "schema":{
+                      "type":"object"
+                  }
+              }
+              }
+          }
+      }
+    },
+
+
+    "/profile/{userId}":{
+      "post": {
+          "summary": "Criar Profile",
+          "description": "Esta rota é responsavel por criar um profile. Cada profile pertence a um usuario, por isso, por meio de params se recebe o id do usuario dono do profile.",
+          "tags": ["Profile"],
+          "parameters": [{
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema":{
+                "type": "string",
+                "minimum": 1
+            }
+        }],
+          "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/Profile"
+                      },
+                      "examples":{
+                          "profile":{
+                              "value":{
+                                  "username": "",
+                                  "user": ""
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "error no servidor"
+              },
+              "422": {
+                  "description": "Profile Existing"
+              },
+              "200":{
+                 "description": "profile created"
+              }
+          }
+      }
+    },
+
+
+    "/post/{userId}":{
+      "post": {
+          "summary": "Criar um Post",
+          "description": "Esta rota é responsavel por criar um post. Por meio de params se recebe o id do usuario dono deste post.",
+          "tags": ["Post"],
+          "parameters": [{
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema":{
+                "type": "string",
+                "minimum": 1
+            }
+        }],
+          "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/Post"
+                      },
+                      "examples":{
+                          "profile":{
+                              "value":{
+                                  "title": "",
+                                  "description": "",
+                                  "userId": "",
+                                  "description": ""
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "there is some error on the server"
+              },
+              "422": {
+                  "description": "Profile Existing"
+              },
+              "200":{
+                 "description": "profile created"
+              }
+          }
+      }
+    },
+
+
+    "/comment/{userId}/{postId}":{
+      "post": {
+          "summary": "Criar um Comentario",
+          "description": "Esta rota é responsavel por criar um comentario em um post. Por meio de params se recebe o id do usuario que pretende criar o comentario e  post receptor do comentario.",
+          "tags": ["Comment"],
+          "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema":{
+              "type": "string",
+              "minimum": 1
+          }
+        },
+        {
+          "in": "path",
+          "name": "postId",
+          "required": true,
+          "schema":{
+              "type": "string",
+              "minimum": 1
+          }
+      }
+      
+      
+      ],
+          "requestBody": {
+              "content":{
+                  "application/json":{
+                      "schema":{
+                          "$ref":"#/components/schemas/Comment"
+                      },
+                      "examples":{
+                          "profile":{
+                              "value":{
+                                  "description": "",
+                                  "assignedTo": "",
+                                  "postId": ""
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "400": {
+                  "description": "there is some error on the server"
+              },
+              "200":{
+                 "description": "comment created"
+              }
+          }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "profile": {
+          "type": "string"
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "myLikes": {
+            "type": "array",
+            "item": "string"
+          }
+        },
+        "following": {
+          "type": "array",
+          "item": "string"
+        },
+        "followers": {
+          "type": "array",
+          "item": "string"
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "array",
+            "item": "string"
+          }
+        },
+        "image": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "type": "string"
+          },
+          "postId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

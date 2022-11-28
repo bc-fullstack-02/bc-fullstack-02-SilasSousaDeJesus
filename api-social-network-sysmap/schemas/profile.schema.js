@@ -8,9 +8,15 @@ const profileSchema = new mongoose.Schema({
   },
   user: {
     required: true,
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  myLikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,4 +31,5 @@ const profileSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Profile", profileSchema);
+// module.exports = mongoose.model("Profile", profileSchema);
+module.exports = mongoose.models.Profile || mongoose.model('Profile', profileSchema)

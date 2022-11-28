@@ -57,4 +57,24 @@ module.exports = class Post {
       console.log(error);
     }
   }
+  static async like(req, res) {
+    try {
+      const { CurrentProfileId, postTargetId } = req.params;
+      return res.json(
+        await PostRepository.likeAPost(CurrentProfileId, postTargetId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async deslike(req, res) {
+    try {
+      const { currentProfileId, postTargetId } = req.params;
+      return res.json(
+        await PostRepository.deslikeAPost(CurrentProfileId, postTargetId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
