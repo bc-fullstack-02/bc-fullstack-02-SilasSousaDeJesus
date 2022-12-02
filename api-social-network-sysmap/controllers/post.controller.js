@@ -77,4 +77,15 @@ module.exports = class Post {
       console.log(error);
     }
   }
+
+  static async timelime(req, res) {
+    try {
+      const { userId } = req.params;
+      return res.json(
+        await PostRepository.timeline(userId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };

@@ -160,19 +160,22 @@ exports.deslikeAPost = async (CurrentProfileId, postTargetId) => {
   }
 };
 
-exports.timeline = async (currentUserId) => {
+exports.timeline = async (userId) => {
   try {
-    const currentUser = await User.findById(currentUserId);
-    const currentProfileUser = await Profile.findById(currentUser.profile._id);
-    const currentUserPosts = await Post.find({ userId: currentUser._id });
-
-    const networkPosts = await Promise.all(
-      currentProfileUser.following.map((networkId) => {
-       return  Post.find({ userId: networkId });
+    const currentUser = await User.findById(userId);
+    const currentProfileUser = await Profile.findOne({
+      user: currentUser._id,
+    });
+    const currentUserPosts = await Post.find({ userId: currentUser });
+    let networkPosts = []
+    await Promise.all(
+      currentProfileUser.following.map(async (networkId) => {
+        const post = await Post.find();
+        return networkPosts.push(post);
       })
     );
-
-    return currentUserPosts.concat(...networkPosts)
+    // currentUserPosts.concat(...networkPosts)
+    return networkPosts
   } catch (error) {
     console.log(error);
   }

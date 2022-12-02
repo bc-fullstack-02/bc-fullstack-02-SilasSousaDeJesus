@@ -15,27 +15,23 @@ const postSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      require: true
+      require: true,
     },
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Profile",
-      },
-    ],
+    comments: {
+      type: Array,
+      default: [],
+    },
+    likes: {
+      type: Array,
+      default: [],
+    },
     image: {
       type: String,
-      default: false
+      default: false,
     },
     image_url: {
-      type: String
-    }
+      type: String,
+    },
   },
   { timestamps: true }
 );

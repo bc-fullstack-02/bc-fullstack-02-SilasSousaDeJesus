@@ -11,25 +11,21 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  myLikes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
-  following: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Profile",
-    },
-  ],
-  followers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Profile",
-    },
-  ],
+  myLikes: {
+    type: Array,
+    default: [],
+  },
+  following: {
+    type: Array,
+    default: [],
+  },
+
+  followers: {
+    type: Array,
+    default: [],
+  },
 });
 
 // module.exports = mongoose.model("Profile", profileSchema);
-module.exports = mongoose.models.Profile || mongoose.model('Profile', profileSchema)
+module.exports =
+  mongoose.models.Profile || mongoose.model("Profile", profileSchema);

@@ -64,7 +64,7 @@
                   "content":{
                       "application/json":{
                           "schema":{
-                              "type":"object",
+                              "type":"array",
                               "$ref":"#/components/schemas/User"
                       
                           }
@@ -314,6 +314,37 @@
               },
               "200":{
                  "description": "profile created"
+              }
+          }
+      }
+    },
+    "/post/timeLine/{userId}":{
+      "get": {
+          "summary": "time line, soma dos post do usuario com os post do usuario que ele segue.",
+          "description": " Esta rota é responsavel por buscar post do usuario em questão de dos usuario que o mesmo curtiu, conformando esta lista numa timeline.",
+          "tags": ["Post"],
+          "parameters": [{
+              "in": "path",
+              "name": "userId",
+              "required": true,
+              "schema":{
+                  "type": "string",
+                  "minimum": 1
+              }
+          }],
+          "responses": {
+              "404": {
+                  "description": "server error"
+              },
+              "200":{
+                  "content":{
+                      "application/json":{
+                          "schema":{
+                              "type":"array",
+                              "$ref":"#/components/schemas/post"
+                          }
+                      }
+                  }
               }
           }
       }
