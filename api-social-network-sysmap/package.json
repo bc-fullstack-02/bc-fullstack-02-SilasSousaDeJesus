@@ -10,6 +10,7 @@
   "author": "silas sousa de jesus",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
