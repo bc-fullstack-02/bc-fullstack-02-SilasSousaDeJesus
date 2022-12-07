@@ -2,7 +2,7 @@ import Heading from "../../components/Header";
 import Text from "../../components/Text";
 import Button from "../../components/Button";
 import { TextInput } from "../../components/textInput";
-import Logo from "../../assets/react.svg";
+import Logo from "../../assets/logo.svg";
 import { Lock, User } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { FormEvent } from "react";
