@@ -4,7 +4,7 @@ module.exports = class ProfileController {
   static async createProfile(req, res) {
     try {
       return res.json(
-        await ProfileRepository.createProfile(req.body.username, req.params.userId)
+        await ProfileRepository.createProfile(req.body.name, req.params.userId)
       );
     } catch (error) {
       console.log(error);
@@ -30,11 +30,11 @@ module.exports = class ProfileController {
 
   static async updateProfile(req, res) {
     const { userId, idProfile } = req.params;
-    const { username } = req.body;
+    const { name } = req.body;
 
     try {
       return res.json(
-        await ProfileRepository.updateProfile(userId, idProfile, username)
+        await ProfileRepository.updateProfile(userId, idProfile, name)
       );
     } catch (error) {}
   }
@@ -47,6 +47,7 @@ module.exports = class ProfileController {
       console.log(error);
     }
   }
+
   static async follow(req, res) {
     const { profileCurrentId, profileTargetId } = req.params;
     try {
@@ -57,6 +58,7 @@ module.exports = class ProfileController {
       console.log(error);
     }
   }
+  
   static async unfollow(req, res) {
     const { profileCurrentId, profileTargetId } = req.params;
     try {

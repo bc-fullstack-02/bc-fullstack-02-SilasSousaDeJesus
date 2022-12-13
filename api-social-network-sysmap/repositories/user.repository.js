@@ -3,36 +3,28 @@ const Post = require("../schemas/post.schema");
 const Comment = require("../schemas/comment.schema");
 const Profile = require("../schemas/profile.schema");
 
-exports.createUser = async (name, lastname, email, password) => {
+exports.createUser = async (user, password) => {
   try {
-    if (name == "" || name == null || !name) {
+    if (user == "" || user == null || !user) {
       return { message: "empty name field" };
-    }
-    if (lastname == "" || lastname == null || !lastname) {
-      return { message: "empty lastname field" };
-    }
-
-    if (email == "" || email == null || !email) {
-      return { message: "empty email field" };
     }
 
     if (password == "" || password == null || !password) {
       return { message: "empty password field" };
     }
 
-    const emailExisting = await User.findOne({ email });
-    if (emailExisting) {
-      return { message: "Email Existing" };
+    const userExisting = await User.findOne({ user });
+
+    if (userExisting) {
+      return { message: "user Existing" };
     }
 
-    const user = await User.create({
-      name,
-      lastname,
-      email,
+    const newUser = await User.create({
+      user,
       password,
     });
 
-    return user;
+    return newUser;
   } catch (error) {
     console.log(error);
   }
@@ -40,8 +32,7 @@ exports.createUser = async (name, lastname, email, password) => {
 
 exports.findAllUsers = async () => {
   try {
-    const users = await User.find({ raw: true });
-
+    const users = await User.find().select("+profile");
     if (users == "" || users == null || !users) {
       return { message: "there are no registered users" };
     }
@@ -55,6 +46,7 @@ exports.findAllUsers = async () => {
 exports.showUser = async (id) => {
   try {
     const user = await User.findById(id);
+
     if (!user) {
       return { message: "User not found" };
     }
@@ -64,11 +56,15 @@ exports.showUser = async (id) => {
   }
 };
 
-exports.updateUser = async (id, name, lastname, email) => {
+exports.updateUser = async (id, user, password) => {
   try {
-    await User.findByIdAndUpdate(id, { name, lastname, email }, { raw: true });
+    console.log(id, user, password);
+    await User.findByIdAndUpdate(id, { user, password });
     const userUpdate = await User.findById(id);
-    return { message: "user updated!", userUpdate };
+    if (!userUpdate) {
+      return { message: "user not found" };
+    }
+    return { message: "user updated!" };
   } catch (error) {
     console.log(error);
   }
@@ -77,12 +73,14 @@ exports.updateUser = async (id, name, lastname, email) => {
 exports.deleteUser = async (id) => {
   try {
     const userCurrent = await User.findById(id);
+    const profileCurrent = await Profile.findOne({ where: { user: id } });
+
     if (userCurrent == "" || userCurrent == null || !userCurrent) {
       return { message: "User Not Found or User Disabled" };
     }
     await Comment.find({ assignedTo: id }).deleteMany();
-    await Post.find({ userId: id }).deleteMany();
-    await Profile.find({ user: id }).deleteOne();
+    await Post.find({ profile: profileCurrent._id }).deleteMany();
+    await Profile.findByIdAndDelete(profileCurrent._id);
     await User.findByIdAndRemove(id);
     return { message: "Username and all your information has been deleted" };
   } catch (error) {

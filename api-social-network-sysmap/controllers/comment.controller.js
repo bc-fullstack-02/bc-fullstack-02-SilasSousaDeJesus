@@ -4,9 +4,9 @@ module.exports = class Post {
   static async createComment(req, res) {
     try {
       const { description } = req.body;
-      const { userId, postId } = req.params;
+      const { profileId, postId } = req.params;
       return res.json(
-        await CommentRepository.createComment(userId, postId, description)
+        await CommentRepository.createComment(profileId, postId, description)
       );
     } catch (error) {
       console.log(error);
@@ -19,33 +19,25 @@ module.exports = class Post {
       console.log(error);
     }
   }
-  static async showAllUserComment(req, res) {
+  static async allCommentPost(req, res) {
     try {
-      return res.json(
-        await CommentRepository.showAllUserComment(req.params.userId)
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  static async allCommentUserPost(req, res) {
-    try {
-      return res.json(
-        await CommentRepository.allCommentUserPost(
-          req.params.userId,
-          req.params.postId
-        )
-      );
+      const { postId } = req.params;
+      return res.json(await CommentRepository.allCommentPost(postId));
     } catch (error) {
       console.log(error);
     }
   }
   static async updateComment(req, res) {
     try {
-      const { title, description } = req.body;
-      const { userId, postId } = req.params;
+      const { description } = req.body;
+      const { profileId, commetId, postId } = req.params;
       return res.json(
-        await CommentRepository.updatePost(userId, postId, title, description)
+        await CommentRepository.updateComment(
+          profileId,
+          postId,
+          commetId,
+          description
+        )
       );
     } catch (error) {
       console.log(error);
@@ -53,7 +45,9 @@ module.exports = class Post {
   }
   static async deleteComment(req, res) {
     try {
-      return res.json(await CommentRepository.deletePost());
+      const { profileId, commetId, postId } = req.params;
+    
+      return res.json(await CommentRepository.deleteComment(profileId, postId, commetId));
     } catch (error) {
       console.log(error);
     }

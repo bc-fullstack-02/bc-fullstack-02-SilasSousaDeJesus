@@ -4,7 +4,7 @@ import { House, User, UsersThree } from 'phosphor-react'
 
 export default function Menu() {
   return (
-   <ul>
+   <ul className=''>
         <MenuItem menutitle='Página inicial'>
             <House size={48} weight="fill"/>
         </MenuItem>

@@ -12,7 +12,23 @@ interface AuthFormProps {
   submitFormButtonText: string;
   linkDescription: string;
   routeName: string;
-  submitFormButtonAction: (email: string, password: string) => void;
+  submitFormButtonAction: (auth: Auth) => void;
+  showNameInput?: boolean;
+}
+
+interface AuthFormElements extends HTMLFormControlsCollection {
+  user: HTMLInputElement;
+  name?: HTMLInputElement;
+  password: HTMLInputElement;
+}
+interface AuthFormElement extends HTMLFormElement {
+  readonly elements: AuthFormElements;
+}
+
+export interface Auth {
+  user: string;
+  name?: string;
+  password: string;
 }
 
 function AuthForm({
@@ -21,11 +37,18 @@ function AuthForm({
   linkDescription,
   submitFormButtonAction,
   routeName,
+  showNameInput,
 }: AuthFormProps) {
-  function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent<AuthFormElement>) {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    submitFormButtonAction(form.elements.email.value, form.elements.password.value)
+    const form = event.currentTarget;
+    const auth = {
+      user: form.elements.user.value,
+      name: form.elements.name?.value,
+      password: form.elements.password.value,
+    };
+
+    submitFormButtonAction(auth);
   }
 
   return (
@@ -36,9 +59,25 @@ function AuthForm({
         <Text className="mt-1 opacity-50">{formTitle}</Text>
       </header>
       <form
-        className="mt-10 flex flex-col gap-4 items-stretch w-full max-w-sm"
-        onSubmit={(event) => handleSubmit(event)}
+        className="mt-5 flex flex-col gap-4 items-stretch w-full max-w-sm"
+        onSubmit={handleSubmit}
       >
+        {showNameInput && (
+          <label htmlFor="name" className="flex flex-col gap-2">
+            <Text>Nome</Text>
+            <TextInput.Root>
+              <TextInput.Icon>
+                <User />
+              </TextInput.Icon>
+              <TextInput.Input
+                id="name"
+                type="text"
+                placeholder="Digite o nome do usuario"
+              />
+            </TextInput.Root>
+          </label>
+        )}
+
         <label htmlFor="user" className="flex flex-col gap-2">
           <Text>Login</Text>
           <TextInput.Root>
@@ -46,7 +85,7 @@ function AuthForm({
               <User />
             </TextInput.Icon>
             <TextInput.Input
-              id="email"
+              id="user"
               type="text"
               placeholder="Digite seu login"
             />

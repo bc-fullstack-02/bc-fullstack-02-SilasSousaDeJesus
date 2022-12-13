@@ -2,10 +2,10 @@ const UserRepository = require("../repositories/user.repository");
 
 module.exports = class UserController {
   static async createUser(req, res) {
-    const { name, lastname, email, password } = req.body;
+    const { user, password } = req.body;
     try {
       return res.json(
-        await UserRepository.createUser(name, lastname, email, password)
+        await UserRepository.createUser(user, password)
       );
     } catch (error) {
       console.log(error);
@@ -31,11 +31,11 @@ module.exports = class UserController {
 
   static async updateUser(req, res) {
     const { id } = req.params;
-    const { name, lastname, username, email } = req.body;
+    const { user, password } = req.body;
 
     try {
       return res.json(
-        await UserRepository.updateUser(id, name, lastname, username, email)
+        await UserRepository.updateUser(id, user, password )
       );
     } catch (error) {}
   }

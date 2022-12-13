@@ -4,9 +4,9 @@ module.exports = class Post {
   static async createPost(req, res) {
     try {
       const { title, description } = req.body;
-      const { userId } = req.params;
+      const { profileId } = req.params;
       return res.json(
-        await PostRepository.createPost(userId, title, description)
+        await PostRepository.createPost(profileId, title, description)
       );
     } catch (error) {
       console.log(error);
@@ -19,18 +19,18 @@ module.exports = class Post {
       console.log(error);
     }
   }
-  static async showAllUserPosts(req, res) {
+  static async feedProfile(req, res) {
     try {
-      return res.json(await PostRepository.showAllUserPost(req.params.userId));
+      return res.json(await PostRepository.feedProfile(req.params.profileId));
     } catch (error) {
       console.log(error);
     }
   }
-  static async showOneUserPost(req, res) {
+  static async showOnePost(req, res) {
     try {
       return res.json(
-        await PostRepository.showOneUserPost(
-          req.params.userId,
+        await PostRepository.showOnePost(
+          req.params.profileId,
           req.params.postId
         )
       );
@@ -41,9 +41,9 @@ module.exports = class Post {
   static async updatePost(req, res) {
     try {
       const { title, description } = req.body;
-      const { userId, postId } = req.params;
+      const { profileId, postId } = req.params;
       return res.json(
-        await PostRepository.updatePost(userId, postId, title, description)
+        await PostRepository.updatePost(profileId, postId, title, description)
       );
     } catch (error) {
       console.log(error);
@@ -51,17 +51,17 @@ module.exports = class Post {
   }
   static async deletePost(req, res) {
     try {
-      const { userId, postId } = req.params;
-      return res.json(await PostRepository.deletePost(userId, postId));
+      const { profileId, postId } = req.params;
+      return res.json(await PostRepository.deletePost(profileId, postId));
     } catch (error) {
       console.log(error);
     }
   }
   static async like(req, res) {
     try {
-      const { CurrentProfileId, postTargetId } = req.params;
+      const { currentProfileId, postTargetId } = req.params;
       return res.json(
-        await PostRepository.likeAPost(CurrentProfileId, postTargetId)
+        await PostRepository.likeAPost(currentProfileId, postTargetId)
       );
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ module.exports = class Post {
     try {
       const { currentProfileId, postTargetId } = req.params;
       return res.json(
-        await PostRepository.deslikeAPost(CurrentProfileId, postTargetId)
+        await PostRepository.deslikeAPost(currentProfileId, postTargetId)
       );
     } catch (error) {
       console.log(error);

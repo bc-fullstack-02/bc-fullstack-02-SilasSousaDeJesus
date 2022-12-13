@@ -12,19 +12,22 @@ const postSchema = new mongoose.Schema(
       required: true,
       minLength: 2,
     },
-    userId: {
+    profile: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      require: true,
+      ref: "Profile",
     },
-    comments: {
-      type: Array,
-      default: [],
-    },
-    likes: {
-      type: Array,
-      default: [],
-    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Profile",
+      },
+    ],
     image: {
       type: String,
       default: false,

@@ -2,10 +2,10 @@ const AuthenticationRepository = require("../repositories/authentication.reposit
 
 module.exports = class UserController {
   static async login(req, res) {
-    const { email, password } = req.body;
+    const { user, password } = req.body;
     try {
       return res.json(
-        await AuthenticationRepository.loginUser(email, password)
+        await AuthenticationRepository.loginUser(user, password)
       );
     } catch (error) {
       console.log(error);

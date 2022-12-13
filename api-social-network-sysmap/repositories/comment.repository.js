@@ -1,12 +1,12 @@
-const User = require("../schemas/user.schema");
+const Profile = require("../schemas/profile.schema");
 const Post = require("../schemas/post.schema");
 const Comment = require("../schemas/comment.schema");
-
-exports.createComment = async (userId, postId, description) => {
+exports.createComment = async (profileId, postId, description) => {
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return { message: "user not found!" };
+    const profile = await Profile.findById(profileId);
+
+    if (!profile) {
+      return { message: "profile not found!" };
     }
     const post = await Post.findById(postId);
     if (!post) {
@@ -14,12 +14,12 @@ exports.createComment = async (userId, postId, description) => {
     }
 
     const descriptionCurrent = await Comment.create({
-      assignedTo: userId,
-      postId: postId,
+      profile: profileId,
+      post: postId,
       description: description,
     });
 
-    const sendingComment = await Post.findById(postId);
+    const sendingComment = post;
     sendingComment.comments.push(descriptionCurrent);
     await Post.findByIdAndUpdate(postId, sendingComment);
 
@@ -30,40 +30,74 @@ exports.createComment = async (userId, postId, description) => {
 };
 exports.showAllComment = async () => {
   try {
-    const descriptions = await Comment.find({});
-    console.log(descriptions);
-    if (descriptions.length === 0) {
+    const comments = await Comment.find({});
+    if (comments.length === 0) {
       return { message: "there is no comment" };
     }
-    return descriptions;
+    return comments;
   } catch (error) {
     console.log(error);
   }
 };
-exports.showAllUserComment = async (userId) => {
+exports.allCommentPost = async (postId) => {
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return { message: "user not found!" };
+    const comments = await Comment.find({ post: postId });
+    if (comments.length === 0) {
+      return { message: "there is no comment" };
     }
+    return comments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.updateComment = async (profileId, postId, commentId, description) => {
+  const profile = await Profile.findById(profileId);
+  if (!profile) {
+    return { message: "profile not found" };
+  }
+  const post = await Post.findById(postId);
+  if (!post) {
+    return { message: "profile not found" };
+  }
+  const comment = await Comment.findOne({
+    _id: commentId,
+    post: postId,
+    profile: profileId,
+  });
+  if (!comment) {
+    return { message: "profile not found" };
+  }
+  const updateComment = {
+    description: description,
+  };
+  await Comment.findByIdAndUpdate(commentId, updateComment);
 
-    const descriptions = await Comment.find({assignedTo: userId});
-    if (descriptions.length === 0) {
-      return { message: "there is no comment" };
-    }
-    return descriptions;
-  } catch (error) {
-    console.log(error);
-  }
+  return { message: "comment successfully updated" };
 };
-exports.allCommentUserPost = async (userId, postId) => {
-  try {
-    const descriptions = await Comment.find({assignedTo: userId, postId:postId});
-    if (descriptions.length === 0) {
-      return { message: "there is no comment" };
-    }
-    return descriptions;
-  } catch (error) {
-    console.log(error);
+exports.deleteComment = async (profileId, postId, commentId) => {
+  
+  const profile = await Profile.findById(profileId);
+
+  if (!profile) {
+    return { message: "profile not found" };
   }
+  const post = await Post.findById(postId);
+  if (!post) {
+    return { message: "post not found" };
+  }
+  const comment = await Comment.findOne({
+    _id: commentId,
+    post: postId,
+    profile: profileId,
+  });
+
+  const postCurrent = await Post.findById(postId);
+  await postCurrent.updateOne({ $pull: { comments: commentId } });
+ 
+  await Comment.findOne({
+    _id: commentId,
+    post: postId,
+    profile: profileId,
+  }).deleteOne();
+  return { message: "successfully deleted comment" };
 };

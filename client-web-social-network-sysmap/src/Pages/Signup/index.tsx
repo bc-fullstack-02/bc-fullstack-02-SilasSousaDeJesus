@@ -1,11 +1,17 @@
-import AuthForm from "../../components/AuthForm";
+import AuthForm, { Auth } from "../../components/AuthForm";
 import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate = useNavigate();
 
-  async function handleSignUp(email: string, password: string) {
-    const data = await api.post("/user/signup", { email, password });
-    console.log(data)
+  async function handleSignUp(auth: Auth) {
+    try {
+      await api.post("/user/signup", auth);
+      navigate("/");
+    } catch (error) {
+      alert("Error creating new user.");
+    }
   }
 
   return (

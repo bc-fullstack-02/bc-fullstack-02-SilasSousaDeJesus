@@ -1,17 +1,18 @@
-const User = require("../schemas/user.schema");
 const Profile = require("../schemas/profile.schema");
 const Post = require("../schemas/post.schema");
 const Comment = require("../schemas/comment.schema");
 
-exports.createPost = async (userId, title, description) => {
+exports.createPost = async (profileId, title, description) => {
   try {
-    const user = await User.findById(userId);
+    console.log(profileId, title, description);
+    const profile = await Profile.findById(profileId);
+    console.log(profile);
 
-    if (!user) {
-      return { message: "user not found!" };
+    if (!profile) {
+      return { message: "profile not found!" };
     }
     const post = await Post.create({
-      userId,
+      profile: profileId,
       title,
       description,
     });
@@ -24,7 +25,7 @@ exports.createPost = async (userId, title, description) => {
 
 exports.showPost = async () => {
   try {
-    const posts = await Post.find({});
+    const posts = await Post.find({ raw: true }).populate("profile");
     if (posts.length === 0) {
       return { message: "there is no post" };
     }
@@ -34,18 +35,17 @@ exports.showPost = async () => {
   }
 };
 
-exports.showAllUserPost = async (userId) => {
+exports.feedProfile = async (profileId) => {
   try {
-    const user = await User.findById(userId);
+    const profile = await Profile.findById(profileId);
 
-    if (!user) {
-      return { message: "user not found!" };
+    if (!profile) {
+      return { message: "profile not found!" };
     }
 
-    const posts = await Post.find({ userId: userId });
-
+    const posts = await Post.find({ profile: profileId }.populate("profile"));
     if (!posts) {
-      return { message: "this user did not post" };
+      return { message: "this profile did not post" };
     }
     return posts;
   } catch (error) {
@@ -53,18 +53,14 @@ exports.showAllUserPost = async (userId) => {
   }
 };
 
-exports.showOneUserPost = async (userId, postId) => {
+exports.showOnePost = async (postId) => {
   try {
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return { message: "user not found!" };
-    }
-
-    const post = await Post.findOne({ _id: postId, userId: userId });
+    const post = await Post.findOne({ _id: postId}).populate(
+      "profile"
+    );
 
     if (!post) {
-      return { message: "user without credentials to access this resource" };
+      return { message: "post not found" };
     }
 
     return post;
@@ -73,13 +69,13 @@ exports.showOneUserPost = async (userId, postId) => {
   }
 };
 
-exports.updatePost = async (userId, postId, title, description) => {
+exports.updatePost = async (profileId, postId, title, description) => {
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return { message: "user not found" };
+    const profile = await Profile.findById(profileId);
+    if (!profile) {
+      return { message: "profile not found" };
     }
-    const currentPost = await Post.findOne({ _id: postId, userId: userId });
+    const currentPost = await Post.findOne({ _id: postId, profile: profileId });
     if (!currentPost) {
       return { message: "post not found" };
     }
@@ -99,19 +95,19 @@ exports.updatePost = async (userId, postId, title, description) => {
   }
 };
 
-exports.deletePost = async (userId, postId) => {
+exports.deletePost = async (profileId, postId) => {
   try {
-    const user = await User.findById(userId);
-    console.log(user);
-    if (!user) {
-      return { message: "user not found" };
+    const profile = await Profile.findById(profileId);
+
+    if (!profile) {
+      return { message: "profile not found" };
     }
-    const currentPost = await Post.findOne({ _id: postId, userId: userId });
+    const currentPost = await Post.findOne({ _id: postId, profile: profileId });
     if (!currentPost) {
       return { message: "post not found" };
     }
 
-    await Comment.find({ assignedTo: userId }).deleteMany();
+    await Comment.find({ post: postId }).deleteMany();
     await Post.findByIdAndRemove(postId);
 
     return { message: "deleted post and all its information" };
@@ -120,8 +116,8 @@ exports.deletePost = async (userId, postId) => {
   }
 };
 
-exports.likeAPost = async (CurrentProfileId, postTargetId) => {
-  const currentProfile = await Profile.findById(CurrentProfileId);
+exports.likeAPost = async (currentProfileId, postTargetId) => {
+  const currentProfile = await Profile.findById(currentProfileId);
   if (!currentProfile) {
     return { message: "Profile not found" };
   }
@@ -130,18 +126,21 @@ exports.likeAPost = async (CurrentProfileId, postTargetId) => {
     return { message: "post not found" };
   }
 
-  const user = await User.findById(postTarget.userId);
-  const profile = await Profile.findById(user.profile);
+  const profile = await Profile.findById(postTarget.profile);
 
   if (!currentProfile.myLikes.includes(postTargetId)) {
     await currentProfile.updateOne({ $push: { myLikes: postTargetId } });
-    await postTarget.updateOne({ $push: { likes: CurrentProfileId } });
-    return { message: `you liked a post by  ${profile.username}` };
+    await postTarget.updateOne({ $push: { likes: currentProfileId } });
+    return { message: `you liked a post by  ${profile.name}` };
+  }
+
+  if (currentProfile.myLikes.includes(postTargetId)) {
+    return { message: "you already liked this post" };
   }
 };
 
-exports.deslikeAPost = async (CurrentProfileId, postTargetId) => {
-  const currentProfile = await Profile.findById(CurrentProfileId);
+exports.deslikeAPost = async (currentProfileId, postTargetId) => {
+  const currentProfile = await Profile.findById(currentProfileId);
   if (!currentProfile) {
     return { message: "Profile not found" };
   }
@@ -150,32 +149,32 @@ exports.deslikeAPost = async (CurrentProfileId, postTargetId) => {
     return { message: "post not found" };
   }
 
-  const user = await User.findById(postTarget.userId);
-  const profile = await Profile.findById(user.profile);
+  const profile = await Profile.findById(postTarget.profile);
 
   if (currentProfile.myLikes.includes(postTargetId)) {
-    await currentProfile.updateOne({ $push: { myLikes: postTargetId } });
-    await postTarget.updateOne({ $push: { likes: CurrentProfileId } });
-    return { message: `you desliked a post by  ${profile.username}` };
+    await currentProfile.updateOne({ $pull: { myLikes: postTargetId } });
+    await postTarget.updateOne({ $pull: { likes: currentProfileId } });
+    return { message: `you desliked a post by  ${profile.name}` };
+  }
+
+  if (!currentProfile.myLikes.includes(postTargetId)) {
+    return { message: "you already disliked this post" };
   }
 };
 
-exports.timeline = async (userId) => {
+exports.timeline = async (profileId) => {
   try {
-    const currentUser = await User.findById(userId);
-    const currentProfileUser = await Profile.findOne({
-      user: currentUser._id,
-    });
-    const currentUserPosts = await Post.find({ userId: currentUser });
-    let networkPosts = []
+    const currentProfileUser = await Profile.findById(profileId);
+    const currentProfilePosts = await Post.find({ profile: profileId });
+    let networkPosts = [];
     await Promise.all(
       currentProfileUser.following.map(async (networkId) => {
-        const post = await Post.find();
-        return networkPosts.push(post);
+        const posts = await Post.find({ profile: networkId });
+        return networkPosts.push(posts);
       })
     );
-    // currentUserPosts.concat(...networkPosts)
-    return networkPosts
+    const timelineCurrent = currentProfilePosts.concat(...networkPosts);
+    return timelineCurrent;
   } catch (error) {
     console.log(error);
   }
