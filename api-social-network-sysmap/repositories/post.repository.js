@@ -4,9 +4,7 @@ const Comment = require("../schemas/comment.schema");
 
 exports.createPost = async (profileId, title, description) => {
   try {
-    console.log(profileId, title, description);
     const profile = await Profile.findById(profileId);
-    console.log(profile);
 
     if (!profile) {
       return { message: "profile not found!" };
@@ -43,7 +41,7 @@ exports.feedProfile = async (profileId) => {
       return { message: "profile not found!" };
     }
 
-    const posts = await Post.find({ profile: profileId }.populate("profile"));
+    const posts = await Post.find({ profile: profileId }).populate("profile");
     if (!posts) {
       return { message: "this profile did not post" };
     }

@@ -14,15 +14,12 @@ interface PostModel {
 }
 
 interface ProfileModel {
-  profile: {
-    _id: string;
-    name: string;
-    user: string;
-    myLikes: Array<string>;
-    following: Array<string>;
-    followers: Array<string>;
-  };
+  _id: string;
+  name: string;
   user: string;
+  myLikes: Array<string>;
+  following: Array<string>;
+  followers: Array<string>;
 }
 
 function Feed() {
@@ -43,7 +40,7 @@ function Feed() {
   }, []);
 
   async function getPosts() {
-    const response = await api.get("/post/allposts/:userId", authHeader);
+    const response = await api.get(`/post/feed/${profile._id}`, authHeader);
     setPosts(response.data);
   }
 
@@ -68,7 +65,7 @@ function Feed() {
     }
   }
   return (
-    <div>
+    <div className="basis-5/6 overflow-y-auto scroll-smooth">
       <Heading className="border-b border-slate-400 mt-4">
         <Text size="lg" className="font-extrabold ml-5">
           Pagina Inicial
@@ -88,7 +85,7 @@ function Feed() {
                   weight="light"
                   className="text-slate-50"
                 />
-                <Text className="font-extrabold ml-2">{post.profile.profile.name}</Text>
+                <Text className="font-extrabold ml-2">{post.profile.name}</Text>
               </div>
 
               <div className="ml-16 flex flex-col gap-2">

@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import api from "../../services/api";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TextInput } from "../textInput";
@@ -6,6 +6,22 @@ import Button from "../Button";
 
 interface CreatePostDialogProps {
   closeDialog: () => void;
+}
+interface ProfileModel {
+  _id: string;
+  name: string;
+  user: string;
+  myLikes: Array<string>;
+  following: Array<string>;
+  followers: Array<string>;
+}
+interface PostModel {
+  _id: string;
+  title: string;
+  description: string;
+  profile: ProfileModel;
+  comments: [];
+  likes: Array<string | null>;
 }
 
 interface PostFormElements extends HTMLFormControlsCollection {
@@ -19,18 +35,21 @@ interface PostFormElement extends HTMLFormElement {
 export default function CreatePostButton({
   closeDialog,
 }: CreatePostDialogProps) {
+  const token = localStorage.getItem("token");
+  const profile = JSON.parse(
+    localStorage.getItem("profile") || "{}"
+  ) as ProfileModel;
+
   async function handleSubmit(event: FormEvent<PostFormElement>) {
     event.preventDefault();
-    alert("dando certo");
 
     try {
-      const token = localStorage.getItem("access_token");
       const form = event.currentTarget;
       const post = {
         title: form.elements.title.value,
         description: form.elements.description.value,
       };
-      await api.post(`/post/:id`, post, {
+      await api.post(`/post/${profile._id}`, post, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

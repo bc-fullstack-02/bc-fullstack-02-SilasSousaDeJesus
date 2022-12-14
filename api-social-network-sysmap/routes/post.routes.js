@@ -4,10 +4,10 @@ const authMiddleware = require('../middlewares/authentication.middlewares');
 
 const router = Router();
 
-router.use(authMiddleware)
+// router.use(authMiddleware)
 router.get("/", PostController.showAllPost);
 router.post("/:profileId", PostController.createPost);
-router.get("/timeLine/:userId", PostController.timelime);
+router.get("/timeLine/:profileId", PostController.timelime);
 router.get("/feed/:profileId", PostController.feedProfile);
 router.post("/like/:currentProfileId/:postTargetId", PostController.like);
 router.post("/deslike/:currentProfileId/:postTargetId", PostController.deslike);

@@ -4,7 +4,7 @@ const authMiddleware = require('../middlewares/authentication.middlewares');
 
 const router = Router();
 
-router.use(authMiddleware)
+// router.use(authMiddleware)
 router.post("/:userId", ProfileController.createProfile);
 router.get("/showAllProfile", ProfileController.showAllProfile);
 router.get("/:idProfile", ProfileController.showProfile);

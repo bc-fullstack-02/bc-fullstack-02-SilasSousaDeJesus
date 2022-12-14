@@ -3,7 +3,7 @@ const CommentController = require("../controllers/comment.controller");
 const authMiddleware = require('../middlewares/authentication.middlewares');
 
 const router = Router();
-router.use(authMiddleware)
+// router.use(authMiddleware)
 router.post("/:profileId/:postId", CommentController.createComment);
 router.get("/", CommentController.showAllComment);
 router.get("/:postId", CommentController.allCommentPost);
