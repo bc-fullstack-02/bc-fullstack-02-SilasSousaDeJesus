@@ -1,7 +1,3 @@
-<div>
-  <h2 align="center"> &rArr; Deploy da aplicação: &lArr;</h2>
-    <p> deploy </p>
-</div>
 
 <div>
   <h2 align="center"> &rArr; Especificações do negócio &lArr;</h2>
