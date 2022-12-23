@@ -1,0 +1,156 @@
+@import "../../styles/break-points.scss";
+
+.headerContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  height: 10vh;
+  line-height: 10vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  a {
+    margin-left: 30px;
+    color: black !important;
+    text-decoration: none;
+    transition: 0.5s;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  a:hover {
+    color: var(--primaryColor) !important;
+  }
+
+  .btnLogout{
+    cursor: pointer;
+    position: relative;
+    top: 0px;
+    left: 8px;
+  }
+
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-top: 25px;
+    cursor: pointer;
+    margin-left: 150px;
+  }
+  .toggle {
+    cursor: pointer;
+    color: var(--black) !important;
+    background: none;
+    border: none;
+    display: none;
+    font-size: 25px;
+  }
+}
+
+@include desktop{
+  
+  .headerContainer{
+    display: flex;
+    align-items: center;
+    .nav{
+      margin-left: 0px;
+    }
+    a{
+      margin-left: 25px;
+      color: var(--black) !important;
+      font-weight: 500;
+    }
+    Link{
+      margin-top: 150px;
+    }
+    .logo {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      margin-left: 150px;
+      margin-top: 20px;
+    }
+  }
+
+}
+@include notebook{
+  .headerContainer{
+
+    .nav{
+      margin-left: 0px;
+    }
+
+    a{
+      margin-left: 25px;
+      color: var(--black) !important;
+      font-weight: 500;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      margin-left: 150px;
+      margin-top: 20px;
+    }
+  }
+
+}
+@include tabletlandscape{
+
+  .headerContainer{
+    .nav{
+      margin-left: 50px;
+    }
+  
+    a{
+      margin-left: 10px;
+      color: var(--black) !important;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      margin-left: 90px;
+      margin-top: 20px;
+    }
+  }
+
+}
+@include tablet {
+  .headerContainer {
+    justify-content: center;
+
+    .nav {
+      display: none;
+    }
+    a{
+   
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 18px;
+      color: var(--black) !important;
+      line-height: 4vh;
+      margin: 10px 0 20px 0;
+    }
+    .hideMenu {
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      align-items: center;
+      top: 10vh;
+      width: 100%;
+    }
+    .toggle {
+      display: flex;
+    }
+    .logo {
+     display: none;
+    }
+  }
+}
+

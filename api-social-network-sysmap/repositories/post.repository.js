@@ -165,13 +165,14 @@ exports.timeline = async (profileId) => {
     const currentProfileUser = await Profile.findById(profileId);
     const currentProfilePosts = await Post.find({ profile: profileId });
     let networkPosts = [];
+    let auxPost = []
     await Promise.all(
       currentProfileUser.following.map(async (networkId) => {
         const posts = await Post.find({ profile: networkId });
         return networkPosts.push(posts);
       })
     );
-    const timelineCurrent = currentProfilePosts.concat(...networkPosts);
+    const timelineCurrent = auxPost.concat(...networkPosts);
     return timelineCurrent;
   } catch (error) {
     console.log(error);

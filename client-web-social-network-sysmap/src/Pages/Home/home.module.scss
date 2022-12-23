@@ -1,0 +1,43 @@
+
+.formAddPost{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.textAreaAdd{
+    margin-top: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-color: rgba(0, 0, 0, 0.103);
+    resize: none;
+    &:focus {
+      outline: none;
+      border-color:var(--primaryHover);
+      box-shadow: 0 0 0 0;
+    }
+    &::placeholder {
+      font-size: 15px;
+      opacity: 0.6;
+    }
+}
+
+.erroField{
+    color: red;
+    font-weight: bolder;
+    font-size: 1rem;
+}
+
+.wrapBtn{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  Button{
+    width: 200px;
+    margin: 10px;
+  }
+}

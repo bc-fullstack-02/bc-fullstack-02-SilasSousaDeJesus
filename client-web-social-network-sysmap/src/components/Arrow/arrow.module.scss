@@ -1,0 +1,14 @@
+.arrowIcon {
+    width: 30px !important;
+    height: 30px !important;
+    animation: scrollAnimate 1s infinite ease-in-out alternate;
+    cursor: pointer;
+  }
+
+
+  @keyframes scrollAnimate {
+    100% {
+      transform: translateX(10px);
+    }
+  }
+  

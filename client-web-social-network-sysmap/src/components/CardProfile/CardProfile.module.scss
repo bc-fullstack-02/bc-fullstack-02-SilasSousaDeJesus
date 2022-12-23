@@ -1,0 +1,132 @@
+@import "../../styles/break-points.scss";
+
+.CardProfile {
+  margin: 0 auto 0 auto;
+  width: 500px;
+  height: 150px;
+  padding: 1.5rem;
+  text-align: justify;
+  color: var(--black);
+  text-decoration: none;
+  border: 1px solid var(--blackHover);
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  margin: 10px;
+
+  .wrapInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+
+    .iconProfile {
+      height: 60px;
+      width: 60px;
+      margin-right: 15px;
+    }
+
+    .btnUnfollow {
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 20px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        margin-left: 100px;
+        cursor: pointer;
+        border: 2px solid var(--blackHover);
+        &:hover {
+          background-color: var(--whiteHover);
+          border-color: var(--whiteHover);
+        }
+      }
+
+      .btnFollow{
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 20px;
+            background: var(--primaryColor) ;
+            border: 2px solid var(--primaryColor);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 100px;
+            color: white;
+            cursor: pointer;
+            &:hover {
+              background-color: var(--primaryHover);
+              border-color: var(--primaryHover);
+          }
+        
+      }
+  }
+
+  .wrapFollowers {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    .followers {
+      margin-left: 40px;
+    }
+    .followers {
+      margin-left: 40px;
+    }
+  }
+
+  h2 {
+    margin: 0 0 0.1rem 0;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 5px 0px;
+    font-size: .8em;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+}
+
+@include desktop {
+}
+@include notebook {
+}
+@include tabletlandscape {
+  .CardProfile {
+    width: 470px;
+    height: 220px;
+    .img {
+      max-width: 400px;
+      max-height: 150px;
+    }
+
+    h2 {
+      font-size: 1rem;
+    }
+  }
+}
+@include tablet {
+  .CardProfile {
+    width: 420px;
+    height: 220px;
+    .img {
+      max-width: 400px;
+      max-height: 130px;
+    }
+    h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+  }
+}
+@include mobile {
+  .CardProfile {
+    width: 400px;
+    height: 220px;
+    h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+  }
+}

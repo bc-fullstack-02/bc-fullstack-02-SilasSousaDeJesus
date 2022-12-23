@@ -1,0 +1,49 @@
+@import "../../styles/break-points.scss";
+
+.containerContent{
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 550px);
+    grid-template-rows: 300px;
+    gap: 5px;
+}
+
+
+@include desktop{
+
+
+}
+@include notebook{
+
+}
+@include tabletlandscape{
+        .containerContent{
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(1, 470px);
+            grid-template-rows: 270px;
+            gap: 5px;
+        }
+}
+@include tablet {
+            
+                .containerContent{
+                    height: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(1, 470px);
+                    grid-template-rows: 270px;
+                    gap: 5px;
+                }
+     
+        }
+
+@include mobile { 
+    .containerContent{
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(1, 450px);
+        grid-template-rows: 270px;
+        gap: 5px;
+    }
+
+}

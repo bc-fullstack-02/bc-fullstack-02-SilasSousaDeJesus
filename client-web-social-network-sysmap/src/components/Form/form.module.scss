@@ -1,0 +1,36 @@
+.form {
+  width: 500px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  border-radius: 20px;
+  border: 1px solid black;
+  border-color: rgba(0, 0, 0, 0.158);
+  .wrapLogo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 20px;
+    .logo {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+  }
+
+  .formTitle {
+    color: black;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .formFooter {
+    margin-top: 20px;
+    width: 70%;
+    text-align: center;
+  }
+}

@@ -6,7 +6,7 @@ const router = Router();
 
 // router.use(authMiddleware)
 router.post("/:userId", ProfileController.createProfile);
-router.get("/showAllProfile", ProfileController.showAllProfile);
+router.get("/showAllProfile/:profileCurrentId", ProfileController.showAllProfile);
 router.get("/:idProfile", ProfileController.showProfile);
 router.put("/:userId/:idProfile", ProfileController.updateProfile);
 router.delete("/:userId/:idProfile", ProfileController.deleteProfile);

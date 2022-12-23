@@ -1,0 +1,25 @@
+
+  .inputLabel {
+    margin-top: 10px;
+    text-align: start;
+    width: 70%;
+    color: black;
+  }
+  input {
+    margin-top: 10px;
+    width: 60%;
+    padding: 8px 25px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-color: rgba(0, 0, 0, 0.103);
+    &:focus {
+      outline: none;
+      border-color:var(--primaryHover);
+      box-shadow: 0 0 0 0;
+    }
+    &::placeholder {
+      font-size: 15px;
+      opacity: 0.6;
+    }
+  
+}

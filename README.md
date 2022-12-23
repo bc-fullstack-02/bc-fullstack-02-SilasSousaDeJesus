@@ -1,21 +1,26 @@
 <div>
+  <h2 align="center"> &rArr; Deploy da aplicação: &lArr;</h2>
+    <p> deploy </p>
+</div>
+
+<div>
   <h2 align="center"> &rArr; Especificações do negócio &lArr;</h2>
 </div>
 
 <br>
 
 <div>
-  <h3 align="left"> &rArr;  Descrição Geral &lArr;</h3>
+  <h3 align="left">   Descrição Geral </h3>
   <p> Projeto de uma rede social eleborado no Programa Trainee SysMap de Excelência Full Stack 2ª edição </p>
 </div>
 
 <div>
-  <h3 align="left"> &rArr;  Requisitos do Negócio &lArr;</h3>
+  <h3 align="left">   Requisitos do Negócio </h3>
  <ul >
-    <li>Crud Usuario</li>
-    <li>Crud de Profile</li>
+    <li>Criação Usuario</li>
+    <li>Criação de Profile</li>
     <li>Crud de Posts</li>
-    <li>Crud de Comentarios</li>
+    <li>Possibilidade fazer de Comentarios em posts</li>
     <li>Sistema de Like e Deslike</li>
     <li>Sistema de Seguir e Deixar de Seguir</li>
     <li>Feed de Usuario</li>
@@ -33,6 +38,9 @@
     <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" >
     <hr>
     <h4>Front-end</h4>
+    <img src="https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white" >
+    <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" >
+     <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" >
     <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" >
     <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" >
     <hr>
@@ -47,11 +55,12 @@
 <h2 align="center"> &rArr; Contatos &lArr;</h2> <br/>
 <div align="left" class="flex-container" style="display: flex; flex-direction: row;">
 
-  <a href = "mailto:silassousadejesus@gmail.com"  style="margin: 5px;"><img src="	https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
+<a href = "mailto:silassousadejesus@gmail.com"  style="margin: 5px;"><img src="	https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
 
-  <a href = "https://wa.me/5571993868658"  style="margin: 5px;"><img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" target="_blank"></a>
+<a href = "https://wa.me/5571993868658"  style="margin: 5px;"><img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" target="_blank"></a>
 
-  <a href="https://www.linkedin.com/in/silassousadejesus/" target="_blank"  style="margin: 5px;"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> 
+<a href="https://www.linkedin.com/in/silassousadejesus/" target="_blank"  style="margin: 5px;"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+
   </div>
 </div>
 

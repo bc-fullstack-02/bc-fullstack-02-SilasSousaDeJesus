@@ -3,7 +3,7 @@ const Profile = require("../schemas/Profile.schema");
 const Post = require("../schemas/post.schema");
 const Comment = require("../schemas/comment.schema");
 
-exports.createProfile = async (name, userId) => {
+exports.createProfile = async (name, userId, profilepicture) => {
   try {
     if (!name || !userId) {
       return { message: "empty  field" };
@@ -22,7 +22,7 @@ exports.createProfile = async (name, userId) => {
       return { message: "Profile Existing" };
     }
 
-    const profile = await Profile.create({ name: name, user: userId });
+    const profile = await Profile.create({ name: name, user: userId, profilepicture: profilepicture});
 
     return profile;
   } catch (error) {
@@ -30,10 +30,10 @@ exports.createProfile = async (name, userId) => {
   }
 };
 
-exports.findAllProfile = async () => {
+exports.findAllProfile = async (profileCurrentId) => {
   try {
-    const profile = await Profile.find({ raw: true }).populate("user");
-
+   
+    const profile = await Profile.find({ _id: {"$ne": profileCurrentId} }).populate("user");
     if (profile == "" || profile == null || !profile) {
       return { message: "there are no registered profile" };
     }

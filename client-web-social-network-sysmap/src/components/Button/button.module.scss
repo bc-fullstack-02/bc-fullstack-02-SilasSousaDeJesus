@@ -1,0 +1,23 @@
+  .btn {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 20px;
+    background: var(--primaryColor) ;
+    border: 2px solid var(--primaryColor);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 80%
+  }
+  .primaryBtn {
+    @extend .btn;
+    width: 72%;
+    &.primaryBtn:hover {
+      background-color: var(--primaryHover);
+      border-color: var(--primaryHover);
+    }
+  }
+

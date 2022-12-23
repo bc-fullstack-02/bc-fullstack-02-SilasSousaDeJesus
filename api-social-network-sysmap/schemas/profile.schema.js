@@ -11,6 +11,10 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  profilepicture: {
+    data: Buffer,
+    contentType: String,
+  },
   myLikes: [
     {
       type: mongoose.Schema.Types.ObjectId,

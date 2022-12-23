@@ -41,10 +41,7 @@ exports.showAllComment = async () => {
 };
 exports.allCommentPost = async (postId) => {
   try {
-    const comments = await Comment.find({ post: postId });
-    if (comments.length === 0) {
-      return { message: "there is no comment" };
-    }
+    const comments = await Comment.find({ post: postId }).populate("profile");
     return comments;
   } catch (error) {
     console.log(error);

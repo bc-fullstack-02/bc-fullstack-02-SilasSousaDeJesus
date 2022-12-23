@@ -3,9 +3,14 @@ const Post = require("../schemas/post.schema");
 const Comment = require("../schemas/comment.schema");
 const Profile = require("../schemas/profile.schema");
 
-exports.createUser = async (user, password) => {
+exports.createUser = async (user, name, password) => {
+  console.log(user, name, password);
   try {
     if (user == "" || user == null || !user) {
+      return { message: "empty name field" };
+    }
+
+    if (name == "" || name == null || !name) {
       return { message: "empty name field" };
     }
 
@@ -24,7 +29,12 @@ exports.createUser = async (user, password) => {
       password,
     });
 
-    return newUser;
+    const newProfile = await Profile.create({
+      user: newUser._id,
+      name: name,
+    });
+
+    return { newUser, newProfile };
   } catch (error) {
     console.log(error);
   }

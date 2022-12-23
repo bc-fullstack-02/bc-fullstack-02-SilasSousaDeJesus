@@ -2,10 +2,11 @@ const UserRepository = require("../repositories/user.repository");
 
 module.exports = class UserController {
   static async createUser(req, res) {
-    const { user, password } = req.body;
+    const { user, name, password } = req.body;
+
     try {
       return res.json(
-        await UserRepository.createUser(user, password)
+        await UserRepository.createUser(user, name, password)
       );
     } catch (error) {
       console.log(error);

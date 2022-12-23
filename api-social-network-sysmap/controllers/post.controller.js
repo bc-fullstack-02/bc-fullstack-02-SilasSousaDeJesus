@@ -30,7 +30,6 @@ module.exports = class Post {
     try {
       return res.json(
         await PostRepository.showOnePost(
-          req.params.profileId,
           req.params.postId
         )
       );
@@ -80,9 +79,9 @@ module.exports = class Post {
 
   static async timelime(req, res) {
     try {
-      const { userId } = req.params;
+      const { profileId } = req.params;
       return res.json(
-        await PostRepository.timeline(userId)
+        await PostRepository.timeline(profileId)
       );
     } catch (error) {
       console.log(error);

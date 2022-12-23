@@ -9,16 +9,34 @@ const swaggerDocument = require('./swagger.json');
 const LOCALPORT = "8000";
 require("dotenv/config");
 require("./database");
+
+
+
 app.use(helmet())
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false  }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use((error, req, res, next) => {
+  if (error && error.statusCode) {
+    res.status(error.statusCode).json({
+      statusCode: error.statusCode,
+      message: error.message
+    });
+  } else {
+    console.log(error);
+  }
+  next();
+});
 
 const routesUser = require("./routes/user.routes");
 const routesProfile = require("./routes/profile.routes");
 const routesPost = require("./routes/post.routes");
 const routesComment = require("./routes/comment.routes");
 const routesAuthentication = require("./routes/authentication.routes");
+
+
 
 app.use("/authentication", routesAuthentication);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

@@ -3,8 +3,10 @@ const ProfileRepository = require("../repositories/profile.repository");
 module.exports = class ProfileController {
   static async createProfile(req, res) {
     try {
+
+      const {profilepicture} = req.files;
       return res.json(
-        await ProfileRepository.createProfile(req.body.name, req.params.userId)
+        await ProfileRepository.createProfile(req.body.name, req.params.userId, profilepicture)
       );
     } catch (error) {
       console.log(error);
@@ -13,7 +15,9 @@ module.exports = class ProfileController {
 
   static async showAllProfile(req, res) {
     try {
-      return res.json(await ProfileRepository.findAllProfile());
+
+      const {profileCurrentId} = req.params;
+      return res.json(await ProfileRepository.findAllProfile(profileCurrentId));
     } catch (error) {
       console.log(error);
     }

@@ -1,0 +1,17 @@
+.GenericBtn {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 20px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 72%;
+    border: 2px solid black;
+
+    &.GenericBtn:hover {
+      background-color: #d9d9da;
+    }
+  }
+
