@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   GetTimeLinePost,
   selectPosts,
-  likePost,
-  DeslikePost,
 } from "../../redux/postSlice/postSlice";
 import { IPayloadToken } from "../../types/globalTypes";
 import styles from "./timeline.module.scss";
@@ -67,7 +65,7 @@ const TimeLine = () => {
       <Container80>
         <div className={styles.containerStart}>
           <h1>Sua Rede</h1>
-          <p>Veja o que seus amigos postaram</p>
+          {posts.length === 0 ? <h6 className="mt-5">Siga outros membros para ver suas postagens</h6>:       <p>Veja o que seus amigos postaram</p>}
           <div className={styles.wrapContent}>
             <ContainerContent>
               {posts.map((post) => {

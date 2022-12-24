@@ -66,21 +66,29 @@ const Community = () => {
       <Container80>
         <div className={styles.containerStart}>
           <h1>Comunidade Parrot</h1>
-          <p>Siga outros membros</p>
-          {profiles.map((profile) => {
+          {profiles.length === 0 ? (
+            <>
+              <h6 className="mt-5">Ainda não há outros membros cadastrados!</h6>{" "}
+              <p>Convide seus amigos</p>
+            </>
+          ) : null}
+          {profiles && profiles.map((profile) => {
             return (
-              <CardProfile
-                profileTargetId={profile._id}
-                name={profile.name}
-                following={profile.following}
-                followers={profile.followers}
-                key={profile._id}
-                profileCurrentId={decodedToken.profile._id}
-                onFollow={() => follow(decodedToken.profile._id, profile._id)}
-                onUnfollow={() =>
-                  unfollow(decodedToken.profile._id, profile._id)
-                }
-              />
+              <>
+                <p>Siga outros membros</p>
+                <CardProfile
+                  profileTargetId={profile._id}
+                  name={profile.name}
+                  following={profile.following}
+                  followers={profile.followers}
+                  key={profile._id}
+                  profileCurrentId={decodedToken.profile._id}
+                  onFollow={() => follow(decodedToken.profile._id, profile._id)}
+                  onUnfollow={() =>
+                    unfollow(decodedToken.profile._id, profile._id)
+                  }
+                />
+              </>
             );
           })}
         </div>

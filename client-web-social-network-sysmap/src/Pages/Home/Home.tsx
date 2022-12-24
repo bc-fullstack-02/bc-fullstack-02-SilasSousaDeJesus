@@ -9,7 +9,7 @@ import { Formik, ErrorMessage, Form, Field } from "formik";
 import * as Yup from "yup";
 import styles from "./home.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { IPayloadToken } from "../../types/globalTypes";
+import { IPayloadToken, IPost } from "../../types/globalTypes";
 import jwt_decode from "jwt-decode";
 import {
   selectPosts,
@@ -33,24 +33,23 @@ const Home = () => {
   const [loadingComponent, setLoadingComponent] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const PostSchema = Yup.object().shape({
     title: Yup.string()
       .test("len", "O limite maximo é de 35 caracteres", (val) => {
-        if (val == undefined) {
+        if (val === undefined) {
           return true;
         }
-        return val.length == 0 || val.length <= 35;
+        return val.length === 0 || val.length <= 35;
       })
       .required("Campo Obrigatorio!"),
     description: Yup.string()
       .test("len", "O limite maximo é de 240 caracteres", (val) => {
-        if (val == undefined) {
+        if (val === undefined) {
           return true;
         }
-        return val.length == 0 || val.length <= 240;
+        return val.length === 0 || val.length <= 240;
       })
       .required("Campo Obrigatorio!"),
   });
@@ -58,8 +57,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const token = useAppSelector(selectToken);
   const decodedToken = jwt_decode(token) as IPayloadToken;
-  const posts = useAppSelector(selectPosts);
-
+  const posts: IPost[] = useAppSelector(selectPosts);
   useEffect(() => {
     getPosts();
   }, []);
@@ -99,20 +97,18 @@ const Home = () => {
     getPosts();
   };
 
-  const navigateForMessage = async (id:string) => {
-    navigate(`/mensagem/${id}`)
+  const navigateForMessage = async (id: string) => {
+    navigate(`/mensagem/${id}`);
   };
 
-  const navigateForEditPost = async (profileId:string, id:string) => {
-    navigate(`/post/${profileId}/${id}`)
+  const navigateForEditPost = async (profileId: string, id: string) => {
+    navigate(`/post/${profileId}/${id}`);
   };
 
   const delPost = async (profileId: string, postId: string): Promise<void> => {
     await dispatch(deletePost({ profileId: profileId, postId: postId }));
     getPosts();
   };
-
-
 
   if (loadingComponent) {
     return <Loading />;
@@ -126,7 +122,9 @@ const Home = () => {
           Crie um poste!
         </Button>
       </div>
-
+      {posts.length === 0 ? (
+        <h6 className="text-center mt-5">Crie o seu primeito post</h6>
+      ) : null}
       <Container80>
         <ContainerContent>
           {posts.map((post) => {
@@ -142,7 +140,9 @@ const Home = () => {
                 onDeslike={() =>
                   DeslikeInPost(decodedToken.profile._id, post._id)
                 }
-                onEdit={()=> navigateForEditPost(decodedToken.profile._id, post._id)}
+                onEdit={() =>
+                  navigateForEditPost(decodedToken.profile._id, post._id)
+                }
                 onDelete={() => delPost(decodedToken.profile._id, post._id)}
                 navigateMsg={() => navigateForMessage(post._id)}
               />
