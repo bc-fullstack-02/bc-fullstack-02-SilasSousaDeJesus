@@ -1,16 +1,47 @@
-import React from 'react';
-import { View, Image } from 'react-native';
-import {Heading} from '../../components/Heading';
+import React, { useContext, useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import { styles } from "./styles";
+import { Spacer } from "../../Components/Spacer";
+import api from "../../services/api";
+import { Auth } from "../../@types/auth";
+import AuthForm from "../../Components/AuthForm";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  Provider as AuthProvider,
+  Context as AuthContext,
+} from "../../context/AuthContext";
 
-import logo from '../../../assets/images/logo.png';
+interface LoginProps {
+  navigation: NativeStackNavigationProp<any, any>;
+}
 
-import {styles} from './styles';
+export default function Login({ navigation }: LoginProps) {
 
-export default function Login(){
-    return(
-        <View style={styles.container}>
-            <Image source={logo} style={styles.logo} resizeMethod='scale'/>
-            <Heading title="Sysmap Parrot" subtitle='Faça o login e comece a usar' />
-        </View>
-    );
+  const {login, errorMessage} = useContext(AuthContext)
+
+
+  function handleRegisterClick() {
+    navigation.navigate("register");
+  }
+
+  return (
+    <>
+      <AuthForm
+        formTitle="Faça o login e comece a usar!"
+        submitFormButtonText="Entrar"
+        submitFormButtonAction={login}
+        routeName="register"
+        showNameInput=""
+      />
+
+      <TouchableOpacity onPress={handleRegisterClick}>
+        <Text style={styles.link}>Não possui conta? Crie uma agora!</Text>
+      </TouchableOpacity>
+      {errorMessage && (
+        <Spacer>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        </Spacer>
+      )}
+    </>
+  );
 }

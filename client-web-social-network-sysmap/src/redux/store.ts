@@ -4,7 +4,6 @@ import postReducer from "./postSlice/postSlice";
 import profileReducer from "./profileSlice/profileSlice";
 import commentReducer from "./commentSlice/commentSlice";
 import { persistReducer, persistStore } from "redux-persist";
-// import storage from 'redux-persist/lib/storage';
 import storage from "redux-persist/lib/storage/session";
 import thunk from "redux-thunk";
 

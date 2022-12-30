@@ -26,7 +26,6 @@ const Login = () => {
   });
 
   const onSubmit = async (values: values, actions: any) => {
-    console.log(values);
 
     const login = {
       user: values.user,
@@ -83,9 +82,6 @@ const Login = () => {
             </div>
 
             <Button type="submit">Entrar</Button>
-            {/* <ButtonGeneric type="submit">
-              <GoogleIcon />
-            </ButtonGeneric> */}
           </Form>
         )}
       </Formik>

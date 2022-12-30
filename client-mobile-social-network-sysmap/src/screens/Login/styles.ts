@@ -2,16 +2,15 @@ import { StyleSheet } from "react-native";
 import { THEME } from "../../theme";
 
 export const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        alignItems: 'center',
-        marginTop: 48,
+   
+    link:{
+     color: THEME.COLORS.CAPTION_400,
+     fontSize:THEME.FONT_SIZE.SM,
+     fontFamily: THEME.FONT_FAMILY.REGULAR,
+     textAlign: "center",
+     textDecorationLine:"underline"
     },
-    logo:{
-        width: 100,
-        height: 100
-    },
-    text:{
-        color: THEME.COLORS.TEXT,
+    errorMessage:{
+       
     }
-});
+ });

@@ -268,7 +268,7 @@
         }
       }
     },
-    "/profile/showAllProfile": {
+    "/profile/showAllProfile/{profileId}": {
       "get": {
         "summary": "Mostra usuarios",
         "description": "Esta rota é responsavel por mostrar todos os profiles cadastrados, nao é necessario passar nenhum parametro, apenas acessar este endpoint. Será  feito um find no  banco de dados buscando todos os profiles e retorna um objeto listando esses profiles.",
@@ -278,6 +278,17 @@
             "type": "object"
           }
         },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "profileId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "no registered Profile"
@@ -494,7 +505,7 @@
       }
     },
 
-    "/post/": {
+    "/post/{profileId}": {
       "get": {
         "summary": "Mostra post",
         "description": "Esta rota é responsavel por mostrar todos os post cadastrados, nao é necessario passar nenhum parametro, apenas acessar este endpoint. Será  feito um find no  banco de dados buscando todos os post e retorna um array listando esses post.",
@@ -1074,94 +1085,99 @@
       "User": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "profile": {
-            "type": "string"
-          }
-        }
-      },
-      "Token": {
-        "type": "object",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          }
-        }
-      },
-      "Login": {
-        "type": "object",
-        "properties": {
           "user": {
             "type": "string"
           },
           "password": {
-            "type": "string"
+            "name": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "profile": {
+              "type": "string"
+            }
           }
-        }
-      },
-      "Profile": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "user": {
-            "type": "string"
-          },
-          "myLikes": {
-            "type": "array",
-            "item": "string"
-          },
-          "following": {
-            "type": "array",
-            "item": "string"
-          },
-          "followers": {
-            "type": "array",
-            "item": "string"
+        },
+        "Token": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string"
+            }
           }
-        }
-      },
-      "Post": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "comments": {
-            "type": "array",
-            "item": "string"
-          },
-          "image": {
-            "type": "string"
-          },
-          "image_url": {
-            "type": "string"
+        },
+        "Login": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
           }
-        }
-      },
-      "Comment": {
-        "type": "object",
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "assignedTo": {
-            "type": "string"
-          },
-          "postId": {
-            "type": "string"
+        },
+        "Profile": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "myLikes": {
+              "type": "array",
+              "item": "string"
+            },
+            "following": {
+              "type": "array",
+              "item": "string"
+            },
+            "followers": {
+              "type": "array",
+              "item": "string"
+            }
+          }
+        },
+        "Post": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "userId": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "array",
+              "item": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "image_url": {
+              "type": "string"
+            }
+          }
+        },
+        "Comment": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "assignedTo": {
+              "type": "string"
+            },
+            "postId": {
+              "type": "string"
+            }
           }
         }
       }
